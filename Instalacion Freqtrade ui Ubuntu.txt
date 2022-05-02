@@ -1,0 +1,31 @@
+#Para nombrar estrategias en Freqtrade UI###
+BotName - Estrategia (Divisa) Dry run
+
+
+#Crear directorio var/www/###
+
+#clonar git###
+git clone https://github.com/devbootstrap/freqtrade-hyperopt-running-in-cloud-example.git
+
+#ingresar al directorio###
+cd freqtrade-hyperopt-running-in-cloud-example
+cd ft_userdata/
+docker-compose pull
+
+#verificamos###
+docker-compose ps
+
+#Creamos los directorios de usuario###
+docker-compose run --rm freqtrade create-userdir --userdir user-data
+
+#verificar que los directorios nos pertenezcan###
+ls -l user_data
+
+#iniciar docker-compose en background###
+docker-compose up -d
+
+#verificar docker compose###
+docker-compose ps
+
+#mostrar los Logs, lo que esta pasando###
+docker-compose logs -f

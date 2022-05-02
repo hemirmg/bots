@@ -1,0 +1,114 @@
+# crea el directorio #####################################################################################
+
+mkdir ft_userdata
+
+# Accedemos al directorio ################################################################################
+
+cd ft_userdata/
+
+# Descarga docker compose del repositorio ################################################################
+
+curl https://raw.githubusercontent.com/freqtrade/freqtrade/stable/docker-compose.yml -o docker-compose.yml
+
+# Obtenemos la imagen de freqtrade #######################################################################
+
+docker-compose pull
+
+# Crea el subdirectorio ##################################################################################
+
+docker-compose run --rm freqtrade create-userdir --userdir user_data
+
+# Crea la configuracion del bot con preguntas interactivas ###############################################
+
+docker-compose run --rm freqtrade new-config --config user_data/config.json
+
+#correr docker sin sudo####
+sudo groupadd docker
+sudo usermod -aG docker $USER
+
+#log out back in with that to reactive group membership#####
+newgrp docker
+
+#verificar si podemos correr docker sin sudo####
+docker ps
+
+#Ingresamos a ft_userdata y verificamos que seamos los propietarios de todos los archivos###
+ls -alh
+
+# si no somos propietarios de algun archivo o carpeta###
+sudo chown -R hemir.hemir user_data  (nombre de la carpeta)
+
+#modificar el archivo config.json, para descargar data para backtesting cambiar VolumePairList por StaticPairList ###
+
+cd user_data
+nano config.json
+
+#agregar al final del json###
+"heartbeat_interval": 5, 
+
+#para correr un backtesting###
+docker-compose run --rm freqtrade download-data --config user_data/config.json --days 30 -t 5m
+
+docker-compose run --rm freqtrade backtesting --config user_data/config.json --strategy SampleStrategy
+
+#ejecutar el bot desde la consola en segundo plano###
+docker-compose up -d
+
+#ver como se ejecuta el contenedor###
+docker ps
+
+#comprobar si el bot esta corriendo bien###
+docker container logs "CONTAINER ID"(4 o 5 primeras caracteres)
+
+#Registro de eventos en progreso Freqtrade log###
+tail -f user_data/logs/freqtrade.log
+
+#Usar el contenedor como un servicio###
+crear un archivo en el directorio /etc/systemd/system  con el nombre freqtrade_docker.service .
+
+sudo nano /etc/systemd/system/freqtrade_docker.service
+
+#Escribe esto dentro###
+
+[Unit]
+Description=%i Freqtrade bot
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+WorkingDirectory=/home/hemir/freqtrade/ft_userdata/%i
+ExecStart=/usr/local/bin/docker-compose up -d --remove-orphans
+ExecStop=/usr/local/bin/docker-compose down
+[Install]
+WantedBy=multi-user.target
+
+
+
+#Para verificar la ruta donde estamos ubicados###
+pwd
+
+#despues de cambiar cada servicio###
+sudo systemctl deamon-reload
+
+#Habilitar el servicio###
+sudo systemctl enable freqtrade_docker.service
+
+#Iniciar el servicio manualmente###
+sudo systemctl start freqtrade_docker.service
+
+#Verificar el estado del servicio###
+sudo systemctl status freqtrade_docker.service
+
+#Verificar si el contenedor docker esta funcionando###
+docker ps
+
+#verificar los registros del contenedor###
+docker container logs "CONTAINER ID"(4 o 5 primeras caracteres)
+
+#Registro de eventos en progreso Freqtrade log###
+cd freqtrade/
+cd ft_userdata/
+tail -f user_data/logs/freqtrade.log
+

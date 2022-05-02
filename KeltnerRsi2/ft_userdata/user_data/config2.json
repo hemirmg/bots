@@ -1,0 +1,117 @@
+{
+    "max_open_trades": 10,
+    "stake_currency": "USDT",
+    "stake_amount": "unlimited",
+    "tradable_balance_ratio": 0.98,
+    "fiat_display_currency": "USD",
+    "timeframe": "1d",
+    "dry_run": true,
+    "dry_run_wallet": 1000,
+    "cancel_open_orders_on_exit": false,
+    "trading_mode": "spot",
+    "margin_mode": "",
+    "unfilledtimeout": {
+        "entry": 10,
+        "exit": 30,
+        "exit_timeout_count": 0,
+        "unit": "minutes"
+    },
+    "entry_pricing": {
+        "price_side": "same",
+        "use_order_book": true,
+        "order_book_top": 1,
+        "price_last_balance": 0.0,
+        "check_depth_of_market": {
+            "enabled": false,
+            "bids_to_ask_delta": 1
+        }
+    },
+    "exit_pricing": {
+        "price_side": "same",
+        "use_order_book": true,
+        "order_book_top": 1
+    },
+    "exchange": {
+        "name": "binance",
+        "key": "vmyV9sLqsQFpx9sEkptWWOnfsMpxgkrB7FLoGIutERDe959PDsas1zsnFmQyVqtz",
+        "secret": "D6EOlZQk95dVRHtgKOMsnUgcvhoOOEAD25q8zVsAqNNIt8EHQmQ1X95B08W8KfbB",
+        "ccxt_config": {
+            "enableRatelimit": true
+        },
+        "ccxt_async_config": {
+            "enableRatelimit": true,
+            "rateLimit": 200
+        },
+        "pair_whitelist": [
+
+            "BTC/USDT",
+            "ETH/USDT",
+            "BNB/USDT",
+            "SOL/USDT",
+            "LUNA/USDT",
+            "AVAX/USDT",
+            "DOGE/USDT",
+            "DOT/USDT",
+            "SHIB/USDT",
+            "NEAR/USDT",
+            "ATOM/USDT",
+            "LINK/USDT",
+            "FTT/USDT",
+            "MANA/USDT",
+            "VET/USDT",
+            "EGLD/USDT",
+            "SAND/USDT",
+            "THETA/USDT",
+            "FTM/USDT",
+            "AXS/USDT",
+            "RUNE/USDT",
+            "CAKE/USDT",
+            "HNT/USDT",
+            "AAVE/USDT",
+            "WAVES/USDT"
+
+        ],
+        "pair_blacklist": [
+            "BNB/.*"
+        ]
+    },
+    "pairlists": [
+        {
+            "method": "StaticPairList"
+        }
+    ],
+    "edge": {
+        "enabled": false,
+        "process_throttle_secs": 3600,
+        "calculate_since_number_of_days": 7,
+        "allowed_risk": 0.01,
+        "stoploss_range_min": -0.01,
+        "stoploss_range_max": -0.1,
+        "stoploss_range_step": -0.01,
+        "minimum_winrate": 0.60,
+        "minimum_expectancy": 0.20,
+        "min_trade_number": 10,
+        "max_trade_duration_minute": 1440,
+        "remove_pumps": false
+    },
+    "telegram": {
+        "enabled": true,
+        "token": "5317284831:AAFuBY8awKBZ4g36AKJqLlfcEV4PDiPhQS4",
+        "chat_id": "5115301231"
+    },
+    "api_server": {
+        "enabled": true,
+        "listen_ip_address": "0.0.0.0",
+        "listen_port": 8080,
+        "jwt_secret_key": "1785e193fc32695fdeecc859b71c66a05073d10cabb613cadce985f2684e35b4",
+        "CORS_origins": [],
+        "username": "user",
+        "password": "pass"
+    },
+    "bot_name": "BotKeltnerRsi",
+    "initial_state": "running",
+    "force_entry_enable": false,
+    "internals": {
+        "process_throttle_secs": 5
+    }
+}
